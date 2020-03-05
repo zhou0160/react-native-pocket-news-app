@@ -41,6 +41,18 @@ function HomeStackScreen() {
   );
 }
 
+const CategoryStack = createStackNavigator();
+
+function CategoryStackScreen() {
+  return (
+    <CategoryStack.Navigator
+    initialRouteName="Category"
+    >
+      <CategoryStack.Screen name="Category" component={Category} />
+    </CategoryStack.Navigator>
+  );
+}
+
 const Tab = createBottomTabNavigator();
 
 export default function App() {
@@ -66,11 +78,10 @@ export default function App() {
         tabBarOptions={{
             activeTintColor: '#3196e2',
             inactiveTintColor: 'gray',
-            style:{height:88, paddingTop:8}
         }}
       >
         <Tab.Screen name="Home" component={HomeStackScreen} />
-        <Tab.Screen name="Category" component={Category} />
+        <Tab.Screen name="Category" component={CategoryStackScreen} />
         <Tab.Screen name="Search" component={Search} />
         <Tab.Screen name="Profile" component={Profile} />
       </Tab.Navigator>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View,Text ,RefreshControl, ScrollView, Dimensions } from 'react-native';
+import { View,Text ,RefreshControl, ScrollView, Dimensions, StatusBar } from 'react-native';
 import HomeCarousel from '../components/HomeCarousel'
 import NewsCard from '../components/NewsCard'
 import { LinearGradient } from 'expo-linear-gradient';
@@ -13,7 +13,7 @@ export default class Home extends React.Component {
   }
 
   getNewsList = () => {
-    const url = 'http://newsapi.org/v2/top-headlines?country=ca&apiKey=d8cb19fc85ac40f287bf8c1a0ef6fffe'
+    const url = 'http://newsapi.org/v2/top-headlines?country=ca&pageSize=30&apiKey=d8cb19fc85ac40f287bf8c1a0ef6fffe'
     fetch(url)
     .then(res => res.json())
     .then(data => {
@@ -45,6 +45,9 @@ export default class Home extends React.Component {
     const deviceWidth = Dimensions.get('window').width
     return(
       <View style={{flex:1, backgroundColor:'#f4f4f4'}}>
+        <StatusBar
+          barStyle="dark-content"
+        />
         <ScrollView
           refreshControl={
             <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} />
@@ -54,14 +57,14 @@ export default class Home extends React.Component {
             <View style={{justifyContent:'center', alignContent:'center',marginTop:10, width:deviceWidth*0.9, alignSelf:'center'}}>
 
               <View style={{width:deviceWidth*0.9, alignSelf: 'center', marginTop: 14, marginBottom:18, flexDirection:'row', justifyContent:'space-between', alignItems:'baseline'}}>
-                <Text style={{ fontWeight:'200', fontSize:30}}>Top Headlines</Text>
+                <Text style={{ fontWeight:'300', fontSize:30, letterSpacing:0}}>Top Headlines</Text>
                 <Text style={{color:'#3196e2', fontSize:12, fontWeight:'300'}}>Read More</Text>
               </View>
               
               <HomeCarousel data={this.state.headlines} goToNews={this.goToNews}/>
             </View>
             <View style={{width:deviceWidth*0.9, alignSelf: 'center', marginTop: 20, marginBottom:6,flexDirection:'row', justifyContent:'space-between', alignItems:'baseline'}}>
-              <Text style={{ fontWeight:'200', fontSize:30}}>Latest</Text>
+              <Text style={{ fontWeight:'300', fontSize:30, letterSpacing:0}}>Latest</Text>
               <Text style={{color:'#3196e2', fontSize:12, fontWeight:'300'}}>Read More</Text>
             </View>
             <View style={{ alignItems:'center', marginTop: 0}}>

@@ -33,7 +33,7 @@ export default class MyCarousel extends Component {
             <View style={{position:'relative', borderRadius:4, overflow:'hidden'}}>
                 <Image source={{uri:item.urlToImage}} style={{height:200, width: Dimensions.get('window').width*0.9}} resizeMode="cover"/>
                 <LinearGradient colors={['transparent', 'rgba(0,0,0,0.6)']} style={{position:'absolute', top:0, left:0, bottom:0, right:0}}>
-                    <Text numberOfLines={2} style={{position:'absolute', bottom:15, paddingHorizontal:15, fontSize:16, fontWeight: '500', color:'white'}}>{item.title.toUpperCase()}</Text>
+                    <Text numberOfLines={3} style={{position:'absolute', bottom:15, paddingHorizontal:15, fontSize:16, fontWeight: '500', color:'white'}}>{item.title.toUpperCase()}</Text>
                 </LinearGradient> 
             </View>
             </TouchableWithoutFeedback>
