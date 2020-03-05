@@ -2,16 +2,13 @@ import React from 'react';
 import Home from './screens/Home'
 import { View,Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Icon } from 'react-native-elements'
 
-function SettingsScreen() {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Settings!</Text>
-      </View>
-    );
-}
+import Category from './screens/Category'
+import News from './screens/News'
+import WebWebsite from './screens/WebWebsite'
 
 function Profile() {
     return (
@@ -27,6 +24,21 @@ function Search() {
         <Text>Search!</Text>
       </View>
     );
+}
+
+
+const HomeStack = createStackNavigator();
+
+function HomeStackScreen() {
+  return (
+    <HomeStack.Navigator
+    initialRouteName="Home"
+    >
+      <HomeStack.Screen name="Home" component={Home} />
+      <HomeStack.Screen name="News" component={News} />
+      <HomeStack.Screen name="News Website" component={WebWebsite} />
+    </HomeStack.Navigator>
+  );
 }
 
 const Tab = createBottomTabNavigator();
@@ -46,19 +58,19 @@ export default function App() {
               } else if (route.name === 'Search') {
                 iconName = 'search';
               }else if (route.name === 'Profile') {
-                iconName = 'person';
+                iconName = 'user';
               }
-              return <Icon name={iconName} size={size} color={color} />;
+              return <Icon name={iconName} size={size} color={color} type='feather'/>;
             },
         })} 
         tabBarOptions={{
             activeTintColor: '#3196e2',
             inactiveTintColor: 'gray',
-            style:{height:88, paddingTop:10}
+            style:{height:88, paddingTop:8}
         }}
       >
-        <Tab.Screen name="Home" component={Home} />
-        <Tab.Screen name="Category" component={SettingsScreen} />
+        <Tab.Screen name="Home" component={HomeStackScreen} />
+        <Tab.Screen name="Category" component={Category} />
         <Tab.Screen name="Search" component={Search} />
         <Tab.Screen name="Profile" component={Profile} />
       </Tab.Navigator>

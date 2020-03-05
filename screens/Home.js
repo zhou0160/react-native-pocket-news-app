@@ -2,7 +2,7 @@ import React from 'react';
 import { View,Text ,RefreshControl, ScrollView, Dimensions } from 'react-native';
 import HomeCarousel from '../components/HomeCarousel'
 import NewsCard from '../components/NewsCard'
-import Header from '../components/Header'
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default class Home extends React.Component {
 
@@ -21,8 +21,8 @@ export default class Home extends React.Component {
       let headlines = []
       for(let i = 0; i < 5; i++){
         headlines.push(data.articles[i])
-        data.articles.splice(0,1)
       }
+      data.articles.splice(0, 5)
       this.setState({articles: data.articles, refreshing: false, headlines})
     })
   }
@@ -32,28 +32,37 @@ export default class Home extends React.Component {
     this.getNewsList()
   }
 
+  goToNews = (article) =>{
+    this.props.navigation.navigate('News', article)
+  }
+
   componentDidMount(){
     this.getNewsList()
   }
 
   render(){
-    const newsList = this.state.articles.map((article, index) => <NewsCard key={index} article={article}/>)
-
+    const newsList = this.state.articles.map((article, index) => <NewsCard key={index} article={article} goToNews={this.goToNews}/>)
+    const deviceWidth = Dimensions.get('window').width
     return(
       <View style={{flex:1, backgroundColor:'#f4f4f4'}}>
-        <Header header={"Canada News"}/>
         <ScrollView
           refreshControl={
             <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} />
           }
         >
           <View>
-            <View style={{justifyContent:'center', alignContent:'center'}}>
-              <HomeCarousel data={this.state.headlines}/>
+            <View style={{justifyContent:'center', alignContent:'center',marginTop:10, width:deviceWidth*0.9, alignSelf:'center'}}>
+
+              <View style={{width:deviceWidth*0.9, alignSelf: 'center', marginTop: 14, marginBottom:18, flexDirection:'row', justifyContent:'space-between', alignItems:'baseline'}}>
+                <Text style={{ fontWeight:'200', fontSize:30}}>Top Headlines</Text>
+                <Text style={{color:'#3196e2', fontSize:12, fontWeight:'300'}}>Read More</Text>
+              </View>
+              
+              <HomeCarousel data={this.state.headlines} goToNews={this.goToNews}/>
             </View>
-            <View style={{width:Dimensions.get('window').width*0.95, alignSelf: 'center', marginTop: 30, flexDirection:'row', justifyContent:'space-between', alignItems:'baseline'}}>
-              <Text style={{ fontWeight:'700', fontSize:24}}>Explore Recent</Text>
-              <Text style={{color:'#3196e2', fontSize:12}}>Read More</Text>
+            <View style={{width:deviceWidth*0.9, alignSelf: 'center', marginTop: 20, marginBottom:6,flexDirection:'row', justifyContent:'space-between', alignItems:'baseline'}}>
+              <Text style={{ fontWeight:'200', fontSize:30}}>Latest</Text>
+              <Text style={{color:'#3196e2', fontSize:12, fontWeight:'300'}}>Read More</Text>
             </View>
             <View style={{ alignItems:'center', marginTop: 0}}>
               {newsList}
