@@ -9,6 +9,7 @@ import { Icon } from 'react-native-elements'
 import Category from './screens/Category'
 import News from './screens/News'
 import WebWebsite from './screens/WebWebsite'
+import NewsList from './screens/NewsList'
 
 function Profile() {
     return (
@@ -60,10 +61,11 @@ const CategoryStack = createStackNavigator();
 
 function CategoryStackScreen() {
   return (
-    <CategoryStack.Navigator
-    initialRouteName="Category"
-    >
+    <CategoryStack.Navigator initialRouteName="Category">
       <CategoryStack.Screen name="Category" component={Category} />
+      <CategoryStack.Screen name="NewsList" component={NewsList} options={{headerTitle:'News List'}}/>
+      <CategoryStack.Screen name="News" component={News}/>
+      <CategoryStack.Screen name="News Website" component={WebWebsite}/>
     </CategoryStack.Navigator>
   );
 }

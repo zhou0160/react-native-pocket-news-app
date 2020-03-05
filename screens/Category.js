@@ -36,14 +36,18 @@ export default class Category extends React.Component {
         ]
     }
 
+    goToNewsList = (category) =>{
+        this.props.navigation.navigate('NewsList', category)
+    }
+
     render(){
         const deviceWidth = Dimensions.get('window').width
-        const categorisList = this.state.categoris.map(category => <CategoryCard key={category.name} data={category}/>)
+        const categorisList = this.state.categoris.map(category => <CategoryCard key={category.name} data={category} goToNewsList={this.goToNewsList}/>)
         return(
             
                 <View>
                     <ScrollView>
-                    <View style={{width:deviceWidth*0.9, alignSelf:'center', marginTop:18}}>
+                    <View style={{width:deviceWidth*0.9, alignSelf:'center', marginTop:18, shadowOpacity: 0.25, shadowOffset: {width:2,height:2}, shadowRadius: 6}}>
                         {categorisList}
                     </View>
                     </ScrollView>
