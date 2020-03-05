@@ -29,17 +29,32 @@ function Search() {
 
 const HomeStack = createStackNavigator();
 
+
 function HomeStackScreen() {
   return (
     <HomeStack.Navigator
     initialRouteName="Home"
     >
-      <HomeStack.Screen name="Home" component={Home} />
-      <HomeStack.Screen name="News" component={News} />
-      <HomeStack.Screen name="News Website" component={WebWebsite} />
+      <HomeStack.Screen name="Home" component={Home}/>
+      <HomeStack.Screen name="News" component={News}/>
+      <HomeStack.Screen name="News Website" component={WebWebsite}/>
     </HomeStack.Navigator>
   );
 }
+HomeStack.navigationOptions = ({navigation}) => {
+  let tabBarVisible = true;
+  console.log('navigation.state.routes[1].routeName', navigation);
+  if (
+    navigation.state.index > 0 &&
+    navigation.state.routes[1].routeName === 'Item'
+  ) {
+    tabBarVisible = false;
+  }
+
+  return {
+    tabBarVisible,
+  };
+};
 
 const CategoryStack = createStackNavigator();
 
@@ -59,10 +74,18 @@ export default function App() {
   return (
     <NavigationContainer>
       <Tab.Navigator
-        screenOptions={({ route }) => ({
+        screenOptions={({ route }) => {
+          let tabBarVisible = true;
+
+          if(route?.state?.index){
+            if (route.state.index > 0) {
+              tabBarVisible = false;
+            }
+          }
+
+          return {
             tabBarIcon: ({ focused, color, size }) => {
               let iconName;
-  
               if (route.name === 'Home') {
                 iconName = 'home';
               } else if (route.name === 'Category') {
@@ -74,7 +97,8 @@ export default function App() {
               }
               return <Icon name={iconName} size={size} color={color} type='feather'/>;
             },
-        })} 
+            tabBarVisible
+        }}} 
         tabBarOptions={{
             activeTintColor: '#3196e2',
             inactiveTintColor: 'gray',
