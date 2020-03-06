@@ -45,13 +45,13 @@ export default class Category extends React.Component {
         const categorisList = this.state.categoris.map(category => <CategoryCard key={category.name} data={category} goToNewsList={this.goToNewsList}/>)
         return(
             
-                <View>
-                    <ScrollView>
-                    <View style={{width:deviceWidth*0.9, alignSelf:'center', marginTop:18, shadowOpacity: 0.25, shadowOffset: {width:2,height:2}, shadowRadius: 6}}>
-                        {categorisList}
-                    </View>
-                    </ScrollView>
+            <View>
+                <ScrollView>
+                <View style={{width:deviceWidth*0.9, alignSelf:'center', marginTop:18,shadowOpacity: 0.25, shadowOffset: {width:2,height:2}, shadowRadius: 6}}>
+                    {categorisList}
                 </View>
+                </ScrollView>
+            </View>
         )
     }
 }

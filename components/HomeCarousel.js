@@ -14,10 +14,10 @@ export default class MyCarousel extends Component {
             <Pagination
               dotsLength={this.props.data.length}
               activeDotIndex={this.state.activeSlide}
-              containerStyle={{position:"relative", bottom: 34}}
+              containerStyle={{position:"relative", bottom: 36}}
               dotStyle={{
-                  width: 3,
-                  height: 3,
+                  width: 4,
+                  height: 4,
                   borderRadius: 10,
                   backgroundColor: 'rgba(0, 0, 0, 1)'
               }}
@@ -43,8 +43,7 @@ export default class MyCarousel extends Component {
     render () {
         return (
             <View style={{height:230, overflow:'hidden', alignSelf:'center'}}>
-                <View style={{ shadowColor: '#000', shadowOpacity: 0.4, shadowOffset: {width:3,height:3},
-                shadowRadius: 9,}}>
+                <View style={{ shadowColor: '#000', shadowOpacity: 0.4, shadowOffset: {width:3,height:3}, shadowRadius: 9}}>
                     <Carousel
                         ref={(c) => { this._carousel = c; }}
                         data={this.props.data}

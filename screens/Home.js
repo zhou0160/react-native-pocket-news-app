@@ -12,8 +12,8 @@ export default class Home extends React.Component {
     articles:[]
   }
 
-  getNewsList = () => {
-    const url = 'http://newsapi.org/v2/top-headlines?country=ca&pageSize=30&apiKey=d8cb19fc85ac40f287bf8c1a0ef6fffe'
+  getNewsList = (page) => {
+    const url = `http://newsapi.org/v2/top-headlines?country=ca&page=${page}&apiKey=d8cb19fc85ac40f287bf8c1a0ef6fffe`
     fetch(url)
     .then(res => res.json())
     .then(data => {
@@ -23,7 +23,11 @@ export default class Home extends React.Component {
         headlines.push(data.articles[i])
       }
       data.articles.splice(0, 5)
-      this.setState({articles: data.articles, refreshing: false, headlines})
+      if(page == 1){
+        this.setState({articles: data.articles, refreshing: false, headlines})
+      } else {
+        this.setState({articles: [...this.state.articles, ...data.articles], refreshing: false, headlines})
+      }
     })
   }
 
@@ -36,23 +40,37 @@ export default class Home extends React.Component {
     this.props.navigation.navigate('News', article)
   }
 
+  isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
+    const paddingToBottom = 20;
+    return layoutMeasurement.height + contentOffset.y >=
+      contentSize.height - paddingToBottom;
+  };
+
   componentDidMount(){
-    this.getNewsList()
+    this.getNewsList(1)
   }
 
   render(){
+    let page = 1
+
     const newsList = this.state.articles.map((article, index) => <NewsCard key={index} article={article} goToNews={this.goToNews}/>)
+
     const deviceWidth = Dimensions.get('window').width
+
     return(
       <View style={{flex:1, backgroundColor:'#f4f4f4'}}>
-        <StatusBar
-          barStyle="dark-content"
-        />
-        <ScrollView
+        <StatusBar barStyle="dark-content" />
+        <ScrollView ref="_scrollView"
           refreshControl={
             <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} />
           }
-        >
+          onScroll={({nativeEvent}) => {
+            if (this.isCloseToBottom(nativeEvent)) {
+                page++
+                this.getNewsList(page)
+            }
+          }}
+          scrollEventThrottle={400}>
           <View>
             <View style={{justifyContent:'center', alignContent:'center',marginTop:10, width:deviceWidth*0.9, alignSelf:'center'}}>
 

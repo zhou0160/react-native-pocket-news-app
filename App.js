@@ -10,6 +10,7 @@ import Category from './screens/Category'
 import News from './screens/News'
 import WebWebsite from './screens/WebWebsite'
 import NewsList from './screens/NewsList'
+import Search from './screens/Search'
 
 function Profile() {
     return (
@@ -18,15 +19,6 @@ function Profile() {
       </View>
     );
 }
-
-function Search() {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Search!</Text>
-      </View>
-    );
-}
-
 
 const HomeStack = createStackNavigator();
 
@@ -42,20 +34,6 @@ function HomeStackScreen() {
     </HomeStack.Navigator>
   );
 }
-HomeStack.navigationOptions = ({navigation}) => {
-  let tabBarVisible = true;
-  console.log('navigation.state.routes[1].routeName', navigation);
-  if (
-    navigation.state.index > 0 &&
-    navigation.state.routes[1].routeName === 'Item'
-  ) {
-    tabBarVisible = false;
-  }
-
-  return {
-    tabBarVisible,
-  };
-};
 
 const CategoryStack = createStackNavigator();
 
@@ -67,6 +45,19 @@ function CategoryStackScreen() {
       <CategoryStack.Screen name="News" component={News}/>
       <CategoryStack.Screen name="News Website" component={WebWebsite}/>
     </CategoryStack.Navigator>
+  );
+}
+
+const SearchStack = createStackNavigator();
+
+function SearchStackScreen() {
+  return (
+    <SearchStack.Navigator initialRouteName="Search">
+      <SearchStack.Screen name="Search" component={Search} />
+      <SearchStack.Screen name="NewsList" component={NewsList} options={{headerTitle:'News List'}}/>
+      <SearchStack.Screen name="News" component={News}/>
+      <SearchStack.Screen name="News Website" component={WebWebsite}/>
+    </SearchStack.Navigator>
   );
 }
 
@@ -108,7 +99,7 @@ export default function App() {
       >
         <Tab.Screen name="Home" component={HomeStackScreen} />
         <Tab.Screen name="Category" component={CategoryStackScreen} />
-        <Tab.Screen name="Search" component={Search} />
+        <Tab.Screen name="Search" component={SearchStackScreen} />
         <Tab.Screen name="Profile" component={Profile} />
       </Tab.Navigator>
     </NavigationContainer>
