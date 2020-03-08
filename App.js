@@ -1,6 +1,5 @@
 import React from 'react';
 import Home from './screens/Home'
-import { View,Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -11,17 +10,9 @@ import News from './screens/News'
 import WebWebsite from './screens/WebWebsite'
 import NewsList from './screens/NewsList'
 import Search from './screens/Search'
-
-function Profile() {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Profile!</Text>
-      </View>
-    );
-}
+import Profile from './screens/Profile'
 
 const HomeStack = createStackNavigator();
-
 
 function HomeStackScreen() {
   return (
@@ -61,6 +52,18 @@ function SearchStackScreen() {
   );
 }
 
+const ProfileStack = createStackNavigator();
+
+function ProfileStackScreen() {
+  return (
+    <ProfileStack.Navigator initialRouteName="Profile">
+      <ProfileStack.Screen name="Profile" component={Profile} />
+      <ProfileStack.Screen name="News" component={News}/>
+      <ProfileStack.Screen name="News Website" component={WebWebsite}/>
+    </ProfileStack.Navigator>
+  );
+}
+
 const Tab = createBottomTabNavigator();
 
 export default function App() {
@@ -94,13 +97,13 @@ export default function App() {
         }}} 
         tabBarOptions={{
             activeTintColor: '#3196e2',
-            inactiveTintColor: 'gray',
+            inactiveTintColor: 'gray'
         }}
       >
         <Tab.Screen name="Home" component={HomeStackScreen} />
         <Tab.Screen name="Category" component={CategoryStackScreen} />
         <Tab.Screen name="Search" component={SearchStackScreen} />
-        <Tab.Screen name="Profile" component={Profile} />
+        <Tab.Screen name="Profile" component={ProfileStackScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   );

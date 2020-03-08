@@ -2,7 +2,6 @@ import React from 'react';
 import { View,Text ,RefreshControl, ScrollView, Dimensions, StatusBar } from 'react-native';
 import HomeCarousel from '../components/HomeCarousel'
 import NewsCard from '../components/NewsCard'
-import { LinearGradient } from 'expo-linear-gradient';
 
 export default class Home extends React.Component {
 
@@ -17,7 +16,6 @@ export default class Home extends React.Component {
     fetch(url)
     .then(res => res.json())
     .then(data => {
-      console.log('update')
       let headlines = []
       for(let i = 0; i < 5; i++){
         headlines.push(data.articles[i])
@@ -52,10 +50,10 @@ export default class Home extends React.Component {
 
   render(){
     let page = 1
-
-    const newsList = this.state.articles.map((article, index) => <NewsCard key={index} article={article} goToNews={this.goToNews}/>)
-
     const deviceWidth = Dimensions.get('window').width
+
+    const newsList = this.state.articles.map((article, index) => <NewsCard width={deviceWidth*0.9} key={index} article={article} goToNews={this.goToNews}/>)
+
 
     return(
       <View style={{flex:1, backgroundColor:'#f4f4f4'}}>

@@ -52,7 +52,7 @@ export default class NewsList extends React.Component {
 
         const deviceWidth = Dimensions.get('window').width
 
-        const newsList = this.state.articles.map((article, index) => <NewsCard key={index} article={article} goToNews={this.goToNews}/>)
+        const newsList = this.state.articles.map((article, index) => <NewsCard width={Dimensions.get('window').width*0.9} key={Date.now()+index} article={article} goToNews={this.goToNews}/>)
     
         return(
             <ScrollView   
@@ -66,7 +66,7 @@ export default class NewsList extends React.Component {
             <View>
                 <View style={{width:deviceWidth*0.9, alignSelf: 'center', marginTop: 14, marginBottom:18, flexDirection:'row', justifyContent:'space-between', alignItems:'baseline'}}>
                     <Text style={{ fontWeight:'300', fontSize:30, letterSpacing:0}}>{this.state.title}</Text>
-                    <Text style={{color:'#3196e2', fontSize:12, fontWeight:'300'}}>{this.state.totalResults} Results</Text>
+                    <Text style={{color:'#2e7df6', fontSize:12, fontWeight:'300'}}>{this.state.totalResults} Results</Text>
                 </View>
                 <View style={{ alignItems:'center', marginTop: 0}}>
                     {newsList}

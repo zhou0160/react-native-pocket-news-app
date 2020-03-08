@@ -33,7 +33,7 @@ export default function NewsCard(props) {
 
     return (
       <TouchableWithoutFeedback onPress={()=>{props.goToNews(props.article)}}>
-        <View style={{width: Dimensions.get('window').width*0.9, height:100, flexDirection:'row', overflow:'hidden', borderBottomWidth:1,borderBottomColor: '#ddd', alignItems:'center', justifyContent:'center'}}>
+        <View style={{width: props.width, height:100, flexDirection:'row', overflow:'hidden', borderBottomWidth:1,borderBottomColor: '#ddd', alignItems:'center', justifyContent:'center'}}>
 
             <View style={{justifyContent:'space-between', flex:5, paddingRight:15, height:75}}>
                 <Text numberOfLines={3} style={{fontWeight:'500', fontSize:13}}>{props.article.title}</Text>
