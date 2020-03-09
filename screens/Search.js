@@ -124,7 +124,7 @@ export default class Search extends React.Component {
 
         return (
             <TouchableWithoutFeedback onPress={()=>{this.goToNews(props.hotNews)}}>
-            <View style={{position:'relative', borderRadius:4, overflow:'hidden', marginLeft:Dimensions.get('window').width*0.05}}>
+            <View style={{position:'relative', borderRadius:4, overflow:'hidden', marginLeft:Dimensions.get('window').width*0.05, height:160, elevation:6}}>
                 <Image source={{uri:props.hotNews.urlToImage ? props.hotNews.urlToImage : imagePlaceholder}} style={{height:150, width: Dimensions.get('window').width*0.8}} resizeMode="cover"/>
                 <LinearGradient colors={['transparent', 'rgba(0,0,0,0.6)']} style={{position:'absolute', top:0, left:0, bottom:0, right:0}}>
                     <Text numberOfLines={3} style={{position:'absolute', bottom:15, paddingHorizontal:15, fontSize:16, fontWeight: '500', color:'white'}}>{props.hotNews.title}</Text>
@@ -176,7 +176,7 @@ export default class Search extends React.Component {
             <View style={{width: deviceWidth, alignSelf: 'center', marginTop: 14, marginBottom:24, flexDirection:'column', justifyContent:'space-between', alignItems:'baseline'}}>
                 <Text style={{ fontWeight:'300', fontSize:20, letterSpacing:0, marginLeft:deviceWidth*0.05}}>Hot for Today</Text>
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                    <View style={{flexDirection:'row',marginTop:24, marginRight:Dimensions.get('window').width*0.05}}>
+                    <View style={{flexDirection:'row',marginTop:24, marginRight:Dimensions.get('window').width*0.05, height:200}}>
                         {hotNewsList}
                     </View>
                 </ScrollView>

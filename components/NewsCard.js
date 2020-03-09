@@ -1,5 +1,5 @@
 import React from "react"
-import { View, Dimensions, Image, Text ,TouchableWithoutFeedback } from "react-native"
+import { View,Image, Text ,TouchableWithoutFeedback } from "react-native"
 
 export default function NewsCard(props) {
     const publishedAt = timeSince(new Date(props.article.publishedAt))
@@ -43,7 +43,7 @@ export default function NewsCard(props) {
                 </View>
             </View>
           
-            <Image source={{uri: props.article.urlToImage?  props.article.urlToImage : imagePlaceholder}} style={{flex:2, height:75, borderRadius: 4}} resizeMode="cover"/>
+            <Image source={{uri: props.article.urlToImage ?  props.article.urlToImage : imagePlaceholder}} style={{flex:2, height:75, borderRadius: 4}} resizeMode="cover"/>
         </View>
         </TouchableWithoutFeedback>
     )

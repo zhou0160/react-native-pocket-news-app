@@ -38,12 +38,6 @@ export default class Home extends React.Component {
     this.props.navigation.navigate('News', article)
   }
 
-  isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
-    const paddingToBottom = 20;
-    return layoutMeasurement.height + contentOffset.y >=
-      contentSize.height - paddingToBottom;
-  };
-
   componentDidMount(){
     this.getNewsList(1)
   }
@@ -61,14 +55,7 @@ export default class Home extends React.Component {
         <ScrollView ref="_scrollView"
           refreshControl={
             <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} />
-          }
-          onScroll={({nativeEvent}) => {
-            if (this.isCloseToBottom(nativeEvent)) {
-                page++
-                this.getNewsList(page)
-            }
-          }}
-          scrollEventThrottle={400}>
+          }>
           <View>
             <View style={{justifyContent:'center', alignContent:'center',marginTop:10, width:deviceWidth*0.9, alignSelf:'center'}}>
 
