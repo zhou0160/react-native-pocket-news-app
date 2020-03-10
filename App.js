@@ -83,15 +83,15 @@ export default function App() {
             tabBarIcon: ({ focused, color, size }) => {
               let iconName;
               if (route.name === 'Home') {
-                iconName = 'home';
+                iconName = focused ? 'home' : 'home-outline';
               } else if (route.name === 'Category') {
-                iconName = 'book';
+                iconName = focused ? 'book' : 'book-outline';
               } else if (route.name === 'Search') {
-                iconName = 'search';
+                iconName = 'magnify';
               }else if (route.name === 'Profile') {
-                iconName = 'user';
+                iconName = focused ? 'account' : 'account-outline';
               }
-              return <Icon name={iconName} size={size} color={color} type='feather'/>;
+              return <Icon name={iconName} size={size} color={color} type='material-community'/>;
             },
             tabBarVisible
         }}} 

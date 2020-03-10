@@ -1,8 +1,12 @@
-import React from "react"
-import { View, ScrollView, Image, Text, Dimensions,AsyncStorage } from "react-native"
+import React, {useState} from "react"
+import { View, ScrollView, Image, Text, Dimensions,AsyncStorage, TouchableWithoutFeedback, RefreshControl } from "react-native"
 import {Button} from "native-base"
+import { Icon } from 'react-native-elements'
 
 export default function News(props) {
+
+    const [isSaved, setIsSaved] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
     const article = props.route.params
     const deviceWidth = Dimensions.get('window').width
@@ -32,16 +36,35 @@ export default function News(props) {
           }
     }
 
-
+    saveNews = () => {
+        setIsLoading(true)
+        if(isSaved){
+            setIsLoading(false)
+            setIsSaved(false)
+        } else {
+            setIsLoading(false)
+            setIsSaved(true)
+        }
+    }
+    
     return(
-        <ScrollView>
+        <ScrollView
+        refreshControl={ 
+            <RefreshControl refreshing={isLoading} onRefresh={saveNews} title={isSaved? "Unsaving..." : "Saving..."} />
+          }>
             <View style={{alignItems:'center'}}>
                 <View style={{alignItems:'center'}}>
                     <View style={{backgroundColor:'#000', height:250, width: deviceWidth, opacity: 0.2, position:'absolute'}}></View>
 
                     <Image style={{height:250, width: deviceWidth, zIndex:-1}} resizeMode="cover"
                     source={{uri: article.urlToImage ? article.urlToImage : imagePlaceholder }}/>
-                    
+
+                    <TouchableWithoutFeedback onPress={saveNews}>
+                        <View style={{position:'absolute', right:deviceWidth*0.05, top:-8}}>
+                            <Icon name={isSaved ?'bookmark' : "bookmark-outline"} size={35} color={isSaved? "#3196e2":'white'} type='material-community'/>
+                        </View>
+                    </TouchableWithoutFeedback>
+
                     <View style={{position:'relative', bottom: 50, backgroundColor:'white', width: deviceWidth * 0.9, paddingVertical: 18, paddingBottom:23, paddingHorizontal:24, shadowColor: '#000', shadowOpacity: 0.07, shadowOffset: {width:3,height:0}, shadowRadius: 10, borderRadius:4}}>
                         <Text style={{fontWeight:'600', fontSize:24, marginBottom: 18, lineHeight:34, fontWeight:'300'}}>{article.title}</Text>
                         <View style={{flexDirection:'row',alignSelf:'flex-end', justifyContent:'space-between',width:'100%', borderBottomColor: '#ddd', borderBottomWidth:1, paddingBottom: 18}}>

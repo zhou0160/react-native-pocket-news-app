@@ -12,7 +12,7 @@ export default class Home extends React.Component {
   }
 
   getNewsList = (page) => {
-    const url = `http://newsapi.org/v2/top-headlines?country=ca&page=${page}&apiKey=d8cb19fc85ac40f287bf8c1a0ef6fffe`
+    const url = `http://newsapi.org/v2/top-headlines?country=ca&page=${page}&pageSize=40&apiKey=d8cb19fc85ac40f287bf8c1a0ef6fffe`
     fetch(url)
     .then(res => res.json())
     .then(data => {

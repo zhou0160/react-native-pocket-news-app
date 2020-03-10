@@ -107,7 +107,7 @@ export default class Profiile extends React.Component {
                         >
                             <View style={{justifyContent:'center',alignContent:'center', flex:1}}>
                                 <View style={{marginBottom:20,backgroundColor:'#ccc', width:60,height:60,justifyContent:'center',alignItems:'center', borderRadius:100, alignSelf:'center'}}>
-                                    <Icon name='bookmark' size={30} color='white' type='feather'/>
+                                    <Icon name='star' size={30} color='white' type='feather'/>
                                 </View>
                                 <Text style={{textAlign:'center',color:'#aaa'}}>No Saved News now,</Text>
                                 <Text  style={{textAlign:'center',color:'#aaa',marginTop:5}}>read and save the news you like!</Text>

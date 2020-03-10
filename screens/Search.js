@@ -17,7 +17,7 @@ export default class Search extends React.Component {
 
     getHotNews = () => {
         const today = new Date().toISOString().substr(0,10)
-        const url = `http://newsapi.org/v2/everything?from=${today}sortBy=popularity&language=en&sources=cbc-news,financial-post,google-news-ca,the-globe-and-mail&apiKey=d8cb19fc85ac40f287bf8c1a0ef6fffe`
+        const url = `http://newsapi.org/v2/everything?from=${today}&sortBy=popularity&language=en&sources=cbc-news,financial-post,google-news-ca,the-globe-and-mail&apiKey=d8cb19fc85ac40f287bf8c1a0ef6fffe`
         fetch(url)
         .then(res => res.json())
         .then(data => {
@@ -125,7 +125,7 @@ export default class Search extends React.Component {
         return (
             <TouchableWithoutFeedback onPress={()=>{this.goToNews(props.hotNews)}}>
             <View style={{position:'relative', borderRadius:4, overflow:'hidden', marginLeft:Dimensions.get('window').width*0.05, height:160, elevation:6}}>
-                <Image source={{uri:props.hotNews.urlToImage ? props.hotNews.urlToImage : imagePlaceholder}} style={{height:150, width: Dimensions.get('window').width*0.8}} resizeMode="cover"/>
+                <Image source={{uri:props.hotNews.urlToImage ? props.hotNews.urlToImage : imagePlaceholder}} style={{height:160, width: Dimensions.get('window').width*0.8}} resizeMode="cover"/>
                 <LinearGradient colors={['transparent', 'rgba(0,0,0,0.6)']} style={{position:'absolute', top:0, left:0, bottom:0, right:0}}>
                     <Text numberOfLines={3} style={{position:'absolute', bottom:15, paddingHorizontal:15, fontSize:16, fontWeight: '500', color:'white'}}>{props.hotNews.title}</Text>
                 </LinearGradient> 
@@ -157,10 +157,10 @@ export default class Search extends React.Component {
                     <Text style={{ fontWeight:'300', fontSize:20, letterSpacing:0}}>Recent Searches</Text>
                     <Text style={{color:'#3196e2', fontSize:12, fontWeight:'300'}} onPress={this.clearRecentSearch}>Clear</Text>
                 </View>
-                <View style={{flexDirection:'row', width:deviceWidth*0.9, alignSelf:'center', flexWrap:'wrap'}}>
+                <View style={{flexDirection:'row', width:deviceWidth*0.9, alignSelf:'center'}}>
                     {
                     this.state.recentSearch.length !=0
-                    ?(<View>{recentSearchList}</View>)
+                    ?(<View style={{flexWrap:'wrap',flexDirection:'row'}}>{recentSearchList}</View>)
                     :(<View style={{justifyContent:'center',alignContent:'center', flex:1, height:'100%'}}>
                         <View style={{marginBottom:20,backgroundColor:'#ccc', width:60,height:60,justifyContent:'center',alignItems:'center', borderRadius:100, alignSelf:'center'}}>
                             <Icon name='search' size={30} color='white' type='feather'/>
