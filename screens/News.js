@@ -7,6 +7,8 @@ export default function News(props) {
 
     const [isSaved, setIsSaved] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+    const [savedList, setSavedList] = useState([])
+
 
     const article = props.route.params
     const deviceWidth = Dimensions.get('window').width
@@ -20,7 +22,8 @@ export default function News(props) {
             try {
                 const value = await AsyncStorage.getItem(savedNewsKey);
                 if(value !== null) {
-                   let saved = JSON.parse(value).findIndex(item => item.content == article.content)
+                   const saved = JSON.parse(value).findIndex(item => item.content == article.content)
+                   setSavedList(JSON.parse(value))
                    setIsSaved(saved != -1 ? true : false)
                 }
             } catch (error) {
@@ -33,7 +36,7 @@ export default function News(props) {
         try {
             const value = await AsyncStorage.getItem(recentViewKey);
             if (value !== null) {
-                let newValue = JSON.parse(value).filter(item => item.content != article.content)
+                const newValue = JSON.parse(value).filter(item => item.content != article.content)
                 saveRecentList([article, ...newValue].slice(0,20))
             } else {
                 saveRecentList([])
@@ -46,17 +49,32 @@ export default function News(props) {
     const saveRecentList = async (list) => {
         try{
             await AsyncStorage.setItem(recentViewKey, JSON.stringify(list))
-          }catch(err){
-              console.log(err)
-          }
+        }catch(err){
+            console.log(err)
+        }
     }
 
     toggleSaveNews = () => {
         setIsLoading(true)
         if(isSaved){
+            const newSavedList = savedList.filter(item => item.content != article.content)
+            setSavedList(newSavedList)
+            try{
+                await AsyncStorage.setItem(savedNewsKey, JSON.stringify(newSavedList))
+            }catch(err){
+                console.log(err)
+            }
             setIsLoading(false)
             setIsSaved(false)
+            
         } else {
+            const newSavedList = savedList.unshift(article)
+            setSavedList(newSavedList)
+            try{
+                await AsyncStorage.setItem(savedNewsKey, JSON.stringify(newSavedList))
+            }catch(err){
+                console.log(err)
+            }
             setIsLoading(false)
             setIsSaved(true)
         }
