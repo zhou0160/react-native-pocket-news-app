@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 import { View, ScrollView, Image, Text, Dimensions,AsyncStorage, TouchableWithoutFeedback, RefreshControl } from "react-native"
 import {Button} from "native-base"
 import { Icon } from 'react-native-elements'
@@ -10,9 +10,24 @@ export default function News(props) {
 
     const article = props.route.params
     const deviceWidth = Dimensions.get('window').width
-    const content =article.content? article.content.split('…') : ["No content now",""]
+    const content =article.content? article.content.split('…') : ["Can not get content, press Read All Article to read.",""]
     const imagePlaceholder = 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'
     const recentViewKey = 'recentViewKey'
+    const savedNewsKey = 'savedNewsKey'
+
+    useEffect(()=>{
+        (async () => {
+            try {
+                const value = await AsyncStorage.getItem(savedNewsKey);
+                if(value !== null) {
+                   let saved = JSON.parse(value).findIndex(item => item.content == article.content)
+                   setIsSaved(saved != -1 ? true : false)
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        })()
+    }, [])
 
     const getRecentList = async () => {
         try {
@@ -36,7 +51,7 @@ export default function News(props) {
           }
     }
 
-    saveNews = () => {
+    toggleSaveNews = () => {
         setIsLoading(true)
         if(isSaved){
             setIsLoading(false)
@@ -50,7 +65,7 @@ export default function News(props) {
     return(
         <ScrollView
         refreshControl={ 
-            <RefreshControl refreshing={isLoading} onRefresh={saveNews} title={isSaved? "Unsaving..." : "Saving..."} />
+            <RefreshControl refreshing={isLoading} onRefresh={toggleSaveNews} title={isSaved? "Unsaving..." : "Saving..."} />
           }>
             <View style={{alignItems:'center'}}>
                 <View style={{alignItems:'center'}}>
@@ -59,7 +74,7 @@ export default function News(props) {
                     <Image style={{height:250, width: deviceWidth, zIndex:-1}} resizeMode="cover"
                     source={{uri: article.urlToImage ? article.urlToImage : imagePlaceholder }}/>
 
-                    <TouchableWithoutFeedback onPress={saveNews}>
+                    <TouchableWithoutFeedback onPress={toggleSaveNews}>
                         <View style={{position:'absolute', right:deviceWidth*0.05, top:-8}}>
                             <Icon name={isSaved ?'bookmark' : "bookmark-outline"} size={35} color={isSaved? "#3196e2":'white'} type='material-community'/>
                         </View>
