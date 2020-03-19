@@ -12,7 +12,7 @@ export default class Home extends React.Component {
   }
 
   getNewsList = (page) => {
-    const url = `http://newsapi.org/v2/top-headlines?country=ca&page=${page}&pageSize=40&apiKey=d8cb19fc85ac40f287bf8c1a0ef6fffe`
+    const url = `http://newsapi.org/v2/top-headlines?country=ca&pageSize=40&apiKey=d8cb19fc85ac40f287bf8c1a0ef6fffe`
     fetch(url)
     .then(res => res.json())
     .then(data => {
@@ -29,6 +29,14 @@ export default class Home extends React.Component {
     })
   }
 
+  readMore = (title) => {
+    const data = {
+      screen: 'home',
+      title
+    }
+    this.props.navigation.navigate('NewsList', data)
+  }
+
   onRefresh = () => {
     this.setState({refreshing:true})
     this.getNewsList()
@@ -43,7 +51,6 @@ export default class Home extends React.Component {
   }
 
   render(){
-    let page = 1
     const deviceWidth = Dimensions.get('window').width
 
     const newsList = this.state.articles.map((article, index) => <NewsCard width={deviceWidth*0.9} key={index} article={article} goToNews={this.goToNews}/>)
@@ -61,14 +68,14 @@ export default class Home extends React.Component {
 
               <View style={{width:deviceWidth*0.9, alignSelf: 'center', marginTop: 14, marginBottom:18, flexDirection:'row', justifyContent:'space-between', alignItems:'baseline'}}>
                 <Text style={{ fontWeight:'300', fontSize:30, letterSpacing:0}}>Top Headlines</Text>
-                <Text style={{color:'#3196e2', fontSize:12, fontWeight:'300'}}>Read More</Text>
+                <Text style={{color:'#3196e2', fontSize:12, fontWeight:'300'}} onPress={()=>this.readMore('Top Headlines')}>Read More</Text>
               </View>
               
               <HomeCarousel data={this.state.headlines} goToNews={this.goToNews}/>
             </View>
             <View style={{width:deviceWidth*0.9, alignSelf: 'center', marginTop: 20, marginBottom:6,flexDirection:'row', justifyContent:'space-between', alignItems:'baseline'}}>
               <Text style={{ fontWeight:'300', fontSize:30, letterSpacing:0}}>Latest</Text>
-              <Text style={{color:'#3196e2', fontSize:12, fontWeight:'300'}}>Read More</Text>
+              <Text style={{color:'#3196e2', fontSize:12, fontWeight:'300'}} onPress={()=>this.readMore('Latest')}>Read More</Text>
             </View>
             <View style={{ alignItems:'center', marginTop: 0}}>
               {newsList}

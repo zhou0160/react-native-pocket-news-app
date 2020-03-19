@@ -13,8 +13,11 @@ export default class NewsList extends React.Component {
     getNewsList = (page) => {
         const data = this.props.route.params
         let url
+        if(data.screen == 'home'){
+            url = `http://newsapi.org/v2/top-headlines?country=ca&page=${page}&apiKey=d8cb19fc85ac40f287bf8c1a0ef6fffe`
+            this.setState({title: data.title})
 
-        if(data.screen == 'search'){
+        } else if(data.screen == 'search'){
             url = `http://newsapi.org/v2/everything?language=en&q=${data.data}&page=${page}&apiKey=d8cb19fc85ac40f287bf8c1a0ef6fffe`
             this.setState({title: `Search "${data.data}"`})
         } else {

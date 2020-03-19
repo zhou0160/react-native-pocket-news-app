@@ -20,6 +20,7 @@ function HomeStackScreen() {
     initialRouteName="Home"
     >
       <HomeStack.Screen name="Home" component={Home}/>
+      <HomeStack.Screen name="NewsList" component={NewsList} options={{headerTitle:'News List'}}/>
       <HomeStack.Screen name="News" component={News}/>
       <HomeStack.Screen name="News Website" component={WebWebsite}/>
     </HomeStack.Navigator>

@@ -45,7 +45,6 @@ export default class MyCarousel extends Component {
     
 
     static getDerivedStateFromError(error) {
-        console.log("hhh")
         return {hasImage:false}
     }
 
