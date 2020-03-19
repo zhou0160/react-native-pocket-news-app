@@ -26,6 +26,19 @@ export default class Profiile extends React.Component {
         }
     }
 
+    getSavedList = async () => {
+        try {
+            const savedNews = await AsyncStorage.getItem(this.state.savedNewsKey);
+            this.setState({refreshing:false})
+            console.log(savedNews)
+            if (savedNews !== null) {
+                this.setState({savedNews: JSON.parse(savedNews)})
+            } 
+        }catch(error){
+            console.log(error)
+        }
+    }
+
     goToNews = (article) =>{
         this.props.navigation.navigate('News', article)
     }
@@ -33,6 +46,7 @@ export default class Profiile extends React.Component {
     onRefresh = () => {
         this.setState({refreshing:true})
         this.getRecentList()
+        this.getSavedList()
     }
 
     styles = StyleSheet.create({
@@ -57,11 +71,14 @@ export default class Profiile extends React.Component {
 
     componentDidMount(){
         this.getRecentList()
+        this.getSavedList()
     }
 
     render(){
         const deviceWidth = Dimensions.get('window').width
         const recentViewList = this.state.recentView.map((article, index) => <NewsCard width={deviceWidth*0.81} key={Date.now()+index} article={article} goToNews={this.goToNews}/>)
+        
+        const savedNewsList = this.state.savedNews.map((article, index) => <NewsCard width={deviceWidth*0.81} key={Date.now()+index} article={article} goToNews={this.goToNews}/>)
 
         return(
             <View style={{flex:1}}>
@@ -88,7 +105,8 @@ export default class Profiile extends React.Component {
                             >
                             <View style={{paddingHorizontal:20}}>
                                 {recentViewList}
-                            </View></ScrollView>)
+                            </View>
+                            </ScrollView>)
                             :(<View style={{justifyContent:'center',alignContent:'center', flex:1}}>
                                 <View style={{marginBottom:20,backgroundColor:'#ccc', width:60,height:60,justifyContent:'center',alignItems:'center', borderRadius:100, alignSelf:'center'}}>
                                     <Icon name='book-open' size={30} color='white' type='feather'/>
@@ -105,13 +123,23 @@ export default class Profiile extends React.Component {
                         activeTextStyle={this.styles.activeTextStyle}
                         style={this.styles.content}
                         >
-                            <View style={{justifyContent:'center',alignContent:'center', flex:1}}>
+                            {this.state.savedNews.length != 0
+                            ?(<ScrollView
+                            refreshControl={
+                                <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh}/>
+                            }
+                            >
+                                <View style={{paddingHorizontal:20}}>
+                                    {savedNewsList}
+                                </View>
+                            </ScrollView>)
+                            :(<View style={{justifyContent:'center',alignContent:'center', flex:1}}>
                                 <View style={{marginBottom:20,backgroundColor:'#ccc', width:60,height:60,justifyContent:'center',alignItems:'center', borderRadius:100, alignSelf:'center'}}>
                                     <Icon name='bookmark' size={30} color='white' type='feather'/>
                                 </View>
                                 <Text style={{textAlign:'center',color:'#aaa'}}>No Saved News now,</Text>
                                 <Text  style={{textAlign:'center',color:'#aaa',marginTop:5}}>read and save the news you like!</Text>
-                            </View>
+                            </View>)}
                         </Tab>
                     </Tabs>
                 </View>

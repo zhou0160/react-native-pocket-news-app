@@ -54,7 +54,7 @@ export default function News(props) {
         }
     }
 
-    toggleSaveNews = () => {
+    toggleSaveNews = async () => {
         setIsLoading(true)
         if(isSaved){
             const newSavedList = savedList.filter(item => item.content != article.content)
@@ -68,7 +68,7 @@ export default function News(props) {
             setIsSaved(false)
             
         } else {
-            const newSavedList = savedList.unshift(article)
+            const newSavedList = [article, ...savedList]
             setSavedList(newSavedList)
             try{
                 await AsyncStorage.setItem(savedNewsKey, JSON.stringify(newSavedList))
